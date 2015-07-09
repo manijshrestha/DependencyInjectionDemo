@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DIDemo</string>
+
+    <string name="city_name">City Name</string>
+    <string name="lookup">Lookup</string>
+    <string name="temperature_string">%1$s \u00B0</string>
+</resources>
