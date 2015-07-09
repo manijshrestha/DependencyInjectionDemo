@@ -6,17 +6,21 @@ import android.net.NetworkInfo;
 import com.manijshrestha.dependencyinjectiondemo.api.OpenWeatherService;
 import com.manijshrestha.dependencyinjectiondemo.model.WeatherData;
 
+import javax.inject.Inject;
+
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class OpenWeatherLookupService implements WeatherLookupService {
 
     ConnectivityManager mConnectivityManager;
+    OpenWeatherService mOpenWeatherService;
 
-    public OpenWeatherLookupService(ConnectivityManager connectivityManager) {
+    @Inject
+    public OpenWeatherLookupService(ConnectivityManager connectivityManager, OpenWeatherService openWeatherService) {
         mConnectivityManager = connectivityManager;
+        mOpenWeatherService = openWeatherService;
     }
 
     @Override
@@ -26,10 +30,7 @@ public class OpenWeatherLookupService implements WeatherLookupService {
             return;
         }
 
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint("http://api.openweathermap.org").build();
-        OpenWeatherService openWeatherService = adapter.create(OpenWeatherService.class);
-
-        openWeatherService.getWeatherData(cityName, "imperial", new Callback<WeatherData>() {
+        mOpenWeatherService.getWeatherData(cityName, "imperial", new Callback<WeatherData>() {
             @Override
             public void success(WeatherData weatherData, Response response) {
                 listener.onWeatherData(weatherData);

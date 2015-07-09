@@ -1,7 +1,5 @@
 package com.manijshrestha.dependencyinjectiondemo.ui;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,9 +9,10 @@ import android.widget.Toast;
 
 import com.manijshrestha.dependencyinjectiondemo.R;
 import com.manijshrestha.dependencyinjectiondemo.model.WeatherData;
-import com.manijshrestha.dependencyinjectiondemo.service.OpenWeatherLookupService;
 import com.manijshrestha.dependencyinjectiondemo.service.WeatherLookupListener;
 import com.manijshrestha.dependencyinjectiondemo.service.WeatherLookupService;
+
+import javax.inject.Inject;
 
 public class WeatherLookupActivity extends BaseActivity implements WeatherLookupListener {
 
@@ -21,6 +20,7 @@ public class WeatherLookupActivity extends BaseActivity implements WeatherLookup
     TextView mTemperatureTV;
     Button mSearchBtn;
 
+    @Inject
     WeatherLookupService mWeatherLookupService;
 
     @Override
@@ -31,8 +31,6 @@ public class WeatherLookupActivity extends BaseActivity implements WeatherLookup
         mCityNameET = (EditText) findViewById(R.id.city_name);
         mTemperatureTV = (TextView) findViewById(R.id.temperature);
         mSearchBtn = (Button) findViewById(R.id.lookup);
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        mWeatherLookupService = new OpenWeatherLookupService(connectivityManager);
 
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
