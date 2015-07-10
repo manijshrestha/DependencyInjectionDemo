@@ -14,8 +14,8 @@ import retrofit.client.Response;
 
 public class OpenWeatherLookupService implements WeatherLookupService {
 
-    ConnectivityManager mConnectivityManager;
-    OpenWeatherService mOpenWeatherService;
+    private final ConnectivityManager mConnectivityManager;
+    private final OpenWeatherService mOpenWeatherService;
 
     @Inject
     public OpenWeatherLookupService(ConnectivityManager connectivityManager, OpenWeatherService openWeatherService) {
