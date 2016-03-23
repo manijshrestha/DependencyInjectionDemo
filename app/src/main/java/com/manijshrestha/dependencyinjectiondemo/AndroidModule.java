@@ -21,8 +21,8 @@ public class AndroidModule {
     }
 
     @Provides
-    ConnectivityManager providesConnectivityManager() {
-        return (ConnectivityManager) mApplication.getSystemService(Context.CONNECTIVITY_SERVICE);
+    ConnectivityManager providesConnectivityManager(Context context) {
+        return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
 }

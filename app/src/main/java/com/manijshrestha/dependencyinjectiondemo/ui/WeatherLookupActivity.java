@@ -1,5 +1,7 @@
 package com.manijshrestha.dependencyinjectiondemo.ui;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +25,9 @@ public class WeatherLookupActivity extends BaseActivity implements WeatherLookup
     @Inject
     WeatherLookupService mWeatherLookupService;
 
+    @Inject
+    ConnectivityManager mConnMgr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,13 @@ public class WeatherLookupActivity extends BaseActivity implements WeatherLookup
                 mWeatherLookupService.getWeather(mCityNameET.getText().toString(), WeatherLookupActivity.this);
             }
         });
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        NetworkInfo activeNetworkInfo = mConnMgr.getActiveNetworkInfo();
+        mSearchBtn.setEnabled(activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting());
     }
 
     @Override
