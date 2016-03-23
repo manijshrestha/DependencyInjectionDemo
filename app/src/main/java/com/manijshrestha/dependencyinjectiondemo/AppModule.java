@@ -20,6 +20,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
@@ -74,6 +75,7 @@ public class AppModule {
         Retrofit adapter = new Retrofit.Builder()
                 .baseUrl("http://api.openweathermap.org")
                 .client(okHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return adapter.create(OpenWeatherService.class);

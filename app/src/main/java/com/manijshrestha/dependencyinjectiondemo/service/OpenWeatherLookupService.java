@@ -8,9 +8,7 @@ import com.manijshrestha.dependencyinjectiondemo.model.WeatherData;
 
 import javax.inject.Inject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
 
 public class OpenWeatherLookupService implements WeatherLookupService {
 
@@ -24,24 +22,12 @@ public class OpenWeatherLookupService implements WeatherLookupService {
     }
 
     @Override
-    public void getWeather(final String cityName, final WeatherLookupListener listener) {
+    public Observable<WeatherData> getWeather(final String cityName) {
         if (!isConnected()) {
-            listener.onNoConnectivity();
-            return;
+            return Observable.error(new Exception("No Network"));
         }
 
-        Call<WeatherData> call = mOpenWeatherService.getWeatherData(cityName, "imperial");
-        call.enqueue(new Callback<WeatherData>() {
-            @Override
-            public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
-                listener.onWeatherData(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<WeatherData> call, Throwable t) {
-                listener.onNoWeatherData();
-            }
-        });
+        return mOpenWeatherService.getWeatherData(cityName, "imperial");
     }
 
     private boolean isConnected() {
