@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
 @Module
@@ -24,7 +25,15 @@ public class AppModule {
     @Provides
     @Singleton
     OpenWeatherService providesOpenWeatherService() {
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint("http://api.openweathermap.org").build();
+        RestAdapter adapter = new RestAdapter.Builder()
+                .setEndpoint("http://api.openweathermap.org")
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestFacade request) {
+                        request.addQueryParam("APPID", BuildConfig.API_KEY);
+                    }
+                })
+                .build();
         return adapter.create(OpenWeatherService.class);
     }
 }

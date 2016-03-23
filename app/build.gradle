@@ -8,9 +8,10 @@ android {
     defaultConfig {
         applicationId "com.manijshrestha.dependencyinjectiondemo"
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "API_KEY", OPEN_WEATHER_API_KEY
     }
     buildTypes {
         release {
