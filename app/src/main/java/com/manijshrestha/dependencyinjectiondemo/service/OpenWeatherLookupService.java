@@ -8,9 +8,9 @@ import com.manijshrestha.dependencyinjectiondemo.model.WeatherData;
 
 import javax.inject.Inject;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OpenWeatherLookupService implements WeatherLookupService {
 
@@ -30,14 +30,15 @@ public class OpenWeatherLookupService implements WeatherLookupService {
             return;
         }
 
-        mOpenWeatherService.getWeatherData(cityName, "imperial", new Callback<WeatherData>() {
+        Call<WeatherData> call = mOpenWeatherService.getWeatherData(cityName, "imperial");
+        call.enqueue(new Callback<WeatherData>() {
             @Override
-            public void success(WeatherData weatherData, Response response) {
-                listener.onWeatherData(weatherData);
+            public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
+                listener.onWeatherData(response.body());
             }
 
             @Override
-            public void failure(RetrofitError error) {
+            public void onFailure(Call<WeatherData> call, Throwable t) {
                 listener.onNoWeatherData();
             }
         });
